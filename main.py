@@ -19,3 +19,10 @@ def answer_api(request: QuestionRequest):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "TDS Virtual TA is running!"}
