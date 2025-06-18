@@ -5,8 +5,8 @@ import pickle
 import requests
 
 # === CONFIGURATION ===
-AIPIPE_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjIzZjIwMDIxMThAZHMuc3R1ZHkuaWl0bS5hYy5pbiJ9.9wU9k9acZztTCrt9J3AZqpD0lX_1jv2g2iXe12uDcfA"
-AIPIPE_EMBEDDING_ENDPOINT = "https://aipipe.org/openai/v1/embeddings"
+AIPIPE_TOKEN = "<your-aipipe-token>"
+AIPIPE_EMBEDDING_ENDPOINT = "<your-aipipe-embedding-url>"
 EMBEDDING_MODEL = "text-embedding-3-small"
 
 INPUT_JSON = "combined_embedding_data.json"
