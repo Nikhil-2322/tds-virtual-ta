@@ -9,16 +9,17 @@ import base64
 import os
 from dotenv import load_dotenv
 
-# Load .env variables
+# Load .env variables (for local dev)
 load_dotenv()
-AIPIPE_TOKEN = os.getenv("AIPIPE_API_KEY")
-AIPIPE_EMBEDDING_ENDPOINT = os.getenv("AIPIPE_API_URL")
 
 # === CONFIGURATION ===
-AIPIPE_TOKEN = "<your-api-key-here>"
-AIPIPE_EMBEDDING_ENDPOINT = "https://aipipe.org/openai/v1/embeddings"
+AIPIPE_TOKEN = os.getenv("AIPIPE_API_KEY")
+AIPIPE_EMBEDDING_ENDPOINT = os.getenv("AIPIPE_API_URL")
 EMBEDDING_MODEL = "text-embedding-3-small"
 INDEX_FILE = "faiss_index.idx"
+
+if not AIPIPE_TOKEN or not AIPIPE_EMBEDDING_ENDPOINT:
+    raise RuntimeError("❌ AIPIPE_API_KEY or AIPIPE_API_URL is not set in environment.")
 
 # === Load FAISS index and metadata ===
 def load_index_and_metadata(filepath):
