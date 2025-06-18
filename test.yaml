@@ -3,18 +3,17 @@ description: "TDS Virtual TA Project Sample (but not the actual evaluation) Ques
 providers:
   - id: https
     config:
-      url: http://0.0.0.0:8000/api # Replace this with your API endpoint
+      url: http://0.0.0.0:8000/api  # Replace with your actual endpoint
       method: POST
       headers:
         Content-Type: application/json
       body: |
         {
-          "question": "{{ question }}"{% if image %},
-          "image": "{{ image }}"{% endif %}
+          "question": "{{ question }}"{% if image %}, "image": "{{ image }}"{% endif %}
         }
       transformResponse: json
 
-# Ensure JSON schema
+# JSON Schema Validation
 defaultTest:
   options:
     provider:
@@ -24,13 +23,19 @@ defaultTest:
         method: POST
         headers:
           Content-Type: application/json
-          Authorization: Bearer API_KEY<your-aipipe-token> # Replace with your token
+          Authorization: Bearer API_KEY<your-aipipe-token>  # Replace with your token
         body: |
           {
             "model": "gpt-4o-mini",
             "messages": [
-              {"role": "system", "content": "You are an evaluator that checks if an output meets specific criteria. Analyze the output based on the given rubric and respond with a JSON object containing {\"reason\": \"your analysis\", \"score\": number between 0.0 and 1.0, \"pass\": true/false}."},
-              {"role": "user", "content": "Output to evaluate: {{ output }}\n\nRubric: {{ rubric }}"}
+              {
+                "role": "system",
+                "content": "You are an evaluator that checks if an output meets specific criteria. Analyze the output based on the given rubric and respond with a JSON object containing {\"reason\": \"your analysis\", \"score\": number between 0.0 and 1.0, \"pass\": true/false}."
+              },
+              {
+                "role": "user",
+                "content": "Output to evaluate: {{ output }}\n\nRubric: {{ rubric }}"
+              }
             ],
             "temperature": 0
           }
@@ -59,7 +64,7 @@ tests:
     assert:
       - type: llm-rubric
         transform: output.answer
-        value: Clarifies use of gpt-3.5-turbo-0125 not gpt-4o-mini
+        value: Explains that gpt-3.5-turbo-0125 was asked, but gpt-4o-mini is supported and can be used
       - type: contains
         transform: JSON.stringify(output.links)
         value: https://discourse.onlinedegree.iitm.ac.in/t/ga5-question-8-clarification/155939
@@ -74,24 +79,23 @@ tests:
       - type: contains
         transform: JSON.stringify(output.links)
         value: https://discourse.onlinedegree.iitm.ac.in/t/ga4-data-sourcing-discussion-thread-tds-jan-2025/165959
+
   - vars:
       question: I know Docker but have not used Podman before. Should I use Docker for this course?
     assert:
       - type: llm-rubric
         transform: output.answer
-        value: Recommends Podman for the course
-      - type: llm-rubric
-        transform: output.answer
-        value: Mentions that Docker is acceptable
+        value: Recommends using Podman for the course, but says Docker is acceptable
       - type: contains
         transform: JSON.stringify(output.links)
         value: https://tds.s-anand.net/#/docker
+
   - vars:
       question: When is the TDS Sep 2025 end-term exam?
     assert:
       - type: llm-rubric
         transform: output.answer
-        value: Says it doesn't know (since this information is not available yet)
+        value: Says this information is not known or not available yet
 
 writeLatestResults: true
 
