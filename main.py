@@ -1,14 +1,23 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
-import traceback  # NEW
 from query import answer_question
 
 app = FastAPI()
 
+# ✅ Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Or restrict to your frontend domain
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 class QuestionRequest(BaseModel):
     question: str
-    image: Optional[str] = None
+    image: Optional[str] = None  # base64 image
 
 @app.post("/api/")
 def answer_api(request: QuestionRequest):
@@ -19,8 +28,6 @@ def answer_api(request: QuestionRequest):
             "links": result["links"]
         }
     except Exception as e:
-        print("Error during question answering:", e)
-        traceback.print_exc()  # 👈 this logs full traceback
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/")
