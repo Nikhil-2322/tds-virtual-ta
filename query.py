@@ -16,7 +16,7 @@ import base64
 
 # === CONFIGURATION ===
 AIPIPE_TOKEN = "<your-api-key-here>"
-AIPIPE_EMBEDDING_ENDPOINT = "<your-aipipe-url>" # recommended for aipipe users: https://aipipe.org/openai/v1/embeddings
+AIPIPE_EMBEDDING_ENDPOINT = https://aipipe.org/openai/v1/embeddings
 EMBEDDING_MODEL = "text-embedding-3-small"
 INDEX_FILE = "faiss_index.idx"
 
