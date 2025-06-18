@@ -6,13 +6,13 @@ from PIL import Image
 import pytesseract
 import io
 import base64
-# import os
-# from dotenv import load_dotenv
+import os
+from dotenv import load_dotenv
 
-# # Load .env variables
-# load_dotenv()
-# AIPIPE_TOKEN = os.getenv("AIPIPE_API_KEY")
-# AIPIPE_EMBEDDING_ENDPOINT = os.getenv("AIPIPE_API_URL")
+# Load .env variables
+load_dotenv()
+AIPIPE_TOKEN = os.getenv("AIPIPE_API_KEY")
+AIPIPE_EMBEDDING_ENDPOINT = os.getenv("AIPIPE_API_URL")
 
 # === CONFIGURATION ===
 AIPIPE_TOKEN = "<your-api-key-here>"
